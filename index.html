@@ -54,6 +54,10 @@
   .hero-scroll { margin-top: 4rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); letter-spacing: 2px; display: flex; align-items: center; gap: 0.5rem; }
   .hero-scroll::before { content: ''; display: block; width: 40px; height: 1px; background: var(--muted); }
 
+  .comic-section { background: var(--bg2); max-width: 100%; padding-left: 10%; padding-right: 10%; }
+  .comic-container { max-width: 1200px; margin: 0 auto; text-align: center; }
+  .comic-image { width: 100%; max-width: 500px; height: auto; border-radius: 10px; border: 1px solid var(--border); margin-top: 2rem; }
+
   .section-label { font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 0.5rem; }
   .section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; margin-bottom: 3rem; letter-spacing: -1px; }
   .section-title span { color: var(--accent); }
@@ -312,13 +316,10 @@
     <div class="course-card"><div class="course-icon">🕸️</div><div><div class="course-name">Knowledge Graph for AI Agent API Discovery</div><div class="course-provider">deeplearning.ai · Aug–Sep 2025</div></div></div>
   </div>
 </section>
-
-
-
 <!-- CONTACT -->
 <section id="contact">
   <div style="max-width:1200px;margin:0 auto;">
-    <div class="section-label">// 06</div>
+    <div class="section-label">// 05</div>
     <h2 class="section-title">Get in <span>Touch</span></h2>
   </div>
   <div class="contact-inner">
@@ -337,6 +338,15 @@
       <textarea placeholder="What are you working on?"></textarea>
       <button class="btn btn-primary">Send Message</button>
     </div>
+  </div>
+</section>
+
+<!-- COMIC OF THE DAY -->
+<section class="comic-section">
+  <div class="comic-container">
+    <div class="section-label">// 06</div>
+    <h2 class="section-title">Comic of the <span>Day</span></h2>
+    <img src="comic.png" alt="Comic of the day" class="comic-image">
   </div>
 </section>
 
