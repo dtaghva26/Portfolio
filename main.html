@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Darya Taghva — AI Engineer</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #1a1a24;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --border: #1e1e2e;
+    --font-mono: 'Courier New', monospace;
+    --font-sans: 'Segoe UI', system-ui, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-sans); line-height: 1.6; }
+
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: rgba(10,10,15,0.85); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 5%; height: 60px;
+  }
+  .nav-logo { font-family: var(--font-mono); color: var(--accent); font-size: 1.1rem; letter-spacing: 2px; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--accent); }
+
+  section { padding: 100px 10%; max-width: 1200px; margin: 0 auto; }
+
+  #hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    justify-content: center; padding-top: 80px; max-width: 100%;
+    padding-left: 10%; padding-right: 10%;
+  }
+  .hero-tag { font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 1.5rem; }
+  .hero-name { font-size: clamp(3rem, 7vw, 6rem); font-weight: 700; line-height: 1.1; letter-spacing: -2px; margin-bottom: 1rem; }
+  .hero-name span { color: var(--accent); }
+  .hero-tagline { font-size: clamp(1rem, 2vw, 1.3rem); color: var(--muted); max-width: 640px; margin-bottom: 2.5rem; line-height: 1.7; }
+  .hero-tagline em { color: var(--text); font-style: normal; }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn { padding: 0.75rem 1.75rem; border-radius: 6px; font-size: 0.9rem; cursor: pointer; text-decoration: none; font-family: var(--font-mono); letter-spacing: 1px; transition: all 0.2s; }
+  .btn-primary { background: var(--accent); color: #000; border: none; }
+  .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+  .btn-outline { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+  .btn-outline:hover { background: rgba(0,212,255,0.07); }
+  .hero-scroll { margin-top: 4rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); letter-spacing: 2px; display: flex; align-items: center; gap: 0.5rem; }
+  .hero-scroll::before { content: ''; display: block; width: 40px; height: 1px; background: var(--muted); }
+
+  .section-label { font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; margin-bottom: 3rem; letter-spacing: -1px; }
+  .section-title span { color: var(--accent); }
+
+  #projects { background: var(--bg2); max-width: 100%; padding-left: 10%; padding-right: 10%; }
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 0 auto; }
+  .project-card {
+    background: var(--bg3); border: 1px solid var(--border); border-radius: 10px;
+    padding: 1.75rem; transition: all 0.25s; position: relative; overflow: hidden;
+  }
+  .project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2)); opacity: 0; transition: opacity 0.25s; }
+  .project-card:hover { border-color: rgba(0,212,255,0.3); transform: translateY(-3px); }
+  .project-card:hover::before { opacity: 1; }
+  .project-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+  .tag { font-family: var(--font-mono); font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 4px; letter-spacing: 1px; }
+  .tag-ml { background: rgba(124,58,237,0.2); color: #a78bfa; border: 1px solid rgba(124,58,237,0.3); }
+  .tag-swe { background: rgba(0,212,255,0.1); color: var(--accent); border: 1px solid rgba(0,212,255,0.2); }
+  .tag-cv { background: rgba(245,158,11,0.1); color: #fbbf24; border: 1px solid rgba(245,158,11,0.2); }
+  .tag-startup { background: rgba(16,185,129,0.1); color: #34d399; border: 1px solid rgba(16,185,129,0.2); }
+  .project-title { font-size: 1.15rem; font-weight: 600; margin-bottom: 0.6rem; }
+  .project-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.6; margin-bottom: 1.25rem; }
+  .project-links { display: flex; gap: 1rem; }
+  .project-link { font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent); text-decoration: none; letter-spacing: 1px; }
+  .project-link:hover { text-decoration: underline; }
+
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
+  .skill-group { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; }
+  .skill-group-title { font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1rem; }
+  .skill-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .skill-list li { font-size: 0.9rem; color: var(--muted); display: flex; align-items: center; gap: 0.5rem; }
+  .skill-list li::before { content: '›'; color: var(--accent); }
+
+  #timeline { background: var(--bg2); max-width: 100%; padding-left: 10%; padding-right: 10%; }
+  .timeline { position: relative; padding-left: 2rem; max-width: 1200px; margin: 0 auto; }
+  .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--border); }
+  .timeline-item { position: relative; margin-bottom: 2.5rem; }
+  .timeline-dot { position: absolute; left: -2.4rem; top: 0.4rem; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); border: 2px solid var(--bg); box-shadow: 0 0 8px var(--accent); }
+  .timeline-year { font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent); letter-spacing: 2px; margin-bottom: 0.25rem; }
+  .timeline-role { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.25rem; }
+  .timeline-company { font-size: 0.9rem; color: var(--muted); margin-bottom: 0.5rem; }
+  .timeline-desc { font-size: 0.875rem; color: var(--muted); max-width: 620px; }
+
+  .courses-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+  .course-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem 1.5rem; display: flex; align-items: flex-start; gap: 1rem; transition: border-color 0.2s; }
+  .course-card:hover { border-color: rgba(0,212,255,0.3); }
+  .course-icon { font-size: 1.5rem; line-height: 1; flex-shrink: 0; }
+  .course-name { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.2rem; }
+  .course-provider { font-family: var(--font-mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 1px; }
+
+  .blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+  .blog-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; transition: all 0.2s; cursor: pointer; }
+  .blog-card:hover { border-color: rgba(0,212,255,0.3); transform: translateY(-2px); }
+  .blog-date { font-family: var(--font-mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 2px; margin-bottom: 0.6rem; }
+  .blog-title { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; line-height: 1.4; }
+  .blog-excerpt { font-size: 0.85rem; color: var(--muted); }
+  .blog-read { margin-top: 1rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent); }
+
+  #contact { background: var(--bg2); max-width: 100%; padding-left: 10%; padding-right: 10%; }
+  .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; max-width: 1200px; margin: 0 auto; }
+  .contact-text p { color: var(--muted); line-height: 1.8; margin-bottom: 2rem; }
+  .socials { display: flex; flex-direction: column; gap: 0.75rem; }
+  .social-link { display: flex; align-items: center; gap: 0.75rem; color: var(--muted); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+  .social-link:hover { color: var(--accent); }
+  .social-link .icon { font-size: 1rem; width: 20px; }
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-form input, .contact-form textarea { background: var(--bg3); border: 1px solid var(--border); color: var(--text); border-radius: 6px; padding: 0.85rem 1rem; font-size: 0.9rem; font-family: var(--font-sans); outline: none; transition: border-color 0.2s; resize: vertical; }
+  .contact-form input:focus, .contact-form textarea:focus { border-color: var(--accent); }
+  .contact-form textarea { min-height: 130px; }
+  .contact-form button { align-self: flex-start; }
+
+  footer { text-align: center; padding: 2rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); border-top: 1px solid var(--border); }
+  footer span { color: var(--accent); }
+
+  @media (max-width: 700px) {
+    .nav-links { gap: 1rem; }
+    section { padding: 80px 5%; }
+    #hero, #projects, #timeline, #contact { padding-left: 5%; padding-right: 5%; }
+    .contact-inner { grid-template-columns: 1fr; gap: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">DT.//</div>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#timeline">Timeline</a></li>
+    <li><a href="#courses">Courses</a></li>
+    <li><a href="#blog">Writing</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <div class="hero-tag">// open to senior AI/ML engineering roles</div>
+  <h1 class="hero-name">Darya<br/>Taghva<span>.</span></h1>
+  <p class="hero-tagline">
+    <em>AI Engineer · Software Engineer · Founder.</em><br/>
+    I architect scalable, production-grade RAG and ML pipelines — bridging cutting-edge LLM research with reliable, user-facing applications. Based in Chertsey, England.
+  </p>
+  <div class="hero-btns">
+    <a class="btn btn-primary" href="#projects">View Projects</a>
+    <a class="btn btn-outline" href="#contact">Get in Touch</a>
+  </div>
+  <div class="hero-scroll">scroll to explore</div>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-label">// 01</div>
+    <h2 class="section-title">Selected <span>Projects</span></h2>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card">
+      <div class="project-tags"><span class="tag tag-ml">ML</span><span class="tag tag-swe">SWE</span></div>
+      <div class="project-title">Traditional ML Algorithms Dashboard</div>
+      <div class="project-desc">Interactive ML visualisation built with React 19, TypeScript, D3.js, and Tailwind. Explores scikit-learn algorithms, hyperparameter tuning via force-directed graphs, and bias-variance tradeoff. Integrated Gemini API for AI-powered tuning suggestions.</div>
+      <div class="project-links"><a class="project-link" href="#">GitHub →</a></div>
+    </div>
+    <div class="project-card">
+      <div class="project-tags"><span class="tag tag-ml">ML</span><span class="tag tag-startup">NLP</span></div>
+      <div class="project-title">RAG Blog Creation System</div>
+      <div class="project-desc">Multi-agent content generation pipeline using CrewAI and NLP. Optimised for UK educational content (Year 1–6). Gradio-based interface automating blog drafting end-to-end.</div>
+      <div class="project-links"><a class="project-link" href="#">GitHub →</a></div>
+    </div>
+    <div class="project-card">
+      <div class="project-tags"><span class="tag tag-ml">ML</span><span class="tag tag-cv">Signal</span></div>
+      <div class="project-title">Mental Health Index Prediction</div>
+      <div class="project-desc">ML models for detecting mental health indices from screen time data with 90%+ accuracy. Includes full EDA pipeline on screen time indexing dataset.</div>
+      <div class="project-links"><a class="project-link" href="#">GitHub →</a></div>
+    </div>
+    <div class="project-card">
+      <div class="project-tags"><span class="tag tag-cv">CV</span><span class="tag tag-ml">ML</span></div>
+      <div class="project-title">Airplane Detection with YOLO</div>
+      <div class="project-desc">Improved YOLO loss function by integrating Varifocal loss for aerial object detection. Applied advanced data augmentations using the Albumentations package.</div>
+      <div class="project-links"><a class="project-link" href="#">GitHub →</a></div>
+    </div>
+    <div class="project-card">
+      <div class="project-tags"><span class="tag tag-cv">CV</span><span class="tag tag-ml">ML</span></div>
+      <div class="project-title">COVID Detection via Chest X-Ray</div>
+      <div class="project-desc">Hybrid model combining chest X-ray images and tabular data for COVID-19 detection, achieving 94% accuracy.</div>
+      <div class="project-links"><a class="project-link" href="#">GitHub →</a></div>
+    </div>
+    <div class="project-card">
+      <div class="project-tags"><span class="tag tag-ml">ML</span></div>
+      <div class="project-title">Alzheimer's Detection</div>
+      <div class="project-desc">ML system (Logistic Regression + Gradient Boosting) using the ELSA dataset for dementia detection. Focus on tabular clinical data modelling.</div>
+      <div class="project-links"><a class="project-link" href="#">GitHub →</a></div>
+    </div>
+    <div class="project-card">
+      <div class="project-tags"><span class="tag tag-swe">SWE</span><span class="tag tag-startup">Startup</span></div>
+      <div class="project-title">No-Code App Builder (BSc Dissertation)</div>
+      <div class="project-desc">Development and deployment of a no-code application generation system using the MERN stack. OOP-driven architecture for reusable component generation.</div>
+      <div class="project-links"><a class="project-link" href="#">GitHub →</a></div>
+    </div>
+    <div class="project-card">
+      <div class="project-tags"><span class="tag tag-ml">AI</span><span class="tag tag-swe">SWE</span></div>
+      <div class="project-title">Hive AI Agent</div>
+      <div class="project-desc">AI agent for the Hive board game using MiniMax (depth 7) with a custom heuristic loss function, improving decision-making by 30%.</div>
+      <div class="project-links"><a class="project-link" href="#">GitHub →</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">// 02</div>
+  <h2 class="section-title">Skills & <span>Stack</span></h2>
+  <div class="skills-grid">
+    <div class="skill-group">
+      <div class="skill-group-title">Languages</div>
+      <ul class="skill-list">
+        <li>Python</li><li>TypeScript</li><li>JavaScript</li><li>SQL</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">ML / AI</div>
+      <ul class="skill-list">
+        <li>PyTorch / TensorFlow / Skorch</li><li>HuggingFace</li><li>LangChain / LangGraph</li><li>CrewAI</li><li>RAG & Agentic Systems</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Domains</div>
+      <ul class="skill-list">
+        <li>Computer Vision</li><li>Signal Processing</li><li>NLP</li><li>MLOps</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Web & Backend</div>
+      <ul class="skill-list">
+        <li>Flask / FastAPI</li><li>Django / Express.js</li><li>React / Gradio</li><li>RESTful APIs</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Infra & Storage</div>
+      <ul class="skill-list">
+        <li>Docker / AWS</li><li>MLflow</li><li>MySQL / SQLite / MongoDB</li><li>Git / GitHub</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section id="timeline">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-label">// 03</div>
+    <h2 class="section-title">Work & <span>Education</span></h2>
+  </div>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">JAN 2026 — PRESENT</div>
+      <div class="timeline-role">Code Sensei</div>
+      <div class="timeline-company">CodeNinjas · Chertsey, England</div>
+      <div class="timeline-desc">Delivering coding instruction in JavaScript, Lua, and C#. Accelerated student project completion by 40% through hands-on mentorship. Institutionalised debugging strategies, reducing session downtime by 25%.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">SEP 2024 — SEP 2025</div>
+      <div class="timeline-role">MSc in Artificial Intelligence · Merit</div>
+      <div class="timeline-company">University of Surrey</div>
+      <div class="timeline-desc">Dissertation: Sleep audio classification using spectrogram features — comparing Mel and CQT spectrograms, deployed as a Flask web app.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">JUL 2023 — DEC 2023</div>
+      <div class="timeline-role">Django Engineering Intern</div>
+      <div class="timeline-company">Quera</div>
+      <div class="timeline-desc">Built a role-based university simulation platform in Django, cutting admin processing time by 35%. Engineered 50+ RESTful APIs and led a 5-person development sprint, reducing ticket turnaround by 20%.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">SEP 2019 — JUN 2024</div>
+      <div class="timeline-role">BSc in Computer Engineering</div>
+      <div class="timeline-company">Shahid Beheshti University</div>
+      <div class="timeline-desc">Dissertation: No-code application builder using MERN stack — development and full deployment of a reusable component generation system.</div>
+    </div>
+  </div>
+</section>
+
+<!-- COURSES -->
+<section id="courses">
+  <div class="section-label">// 04</div>
+  <h2 class="section-title">Courses & <span>Certs</span></h2>
+  <div class="courses-grid">
+    <div class="course-card"><div class="course-icon">🧠</div><div><div class="course-name">Capstone: Deep Learning</div><div class="course-provider">May 2026 — Jun 2026</div></div></div>
+    <div class="course-card"><div class="course-icon">📋</div><div><div class="course-name">Foundations of Project Management</div><div class="course-provider">Apr 2026 — May 2026</div></div></div>
+    <div class="course-card"><div class="course-icon">🔍</div><div><div class="course-name">Advanced RAG with Vector Databases</div><div class="course-provider">Mar 2026 — Apr 2026</div></div></div>
+    <div class="course-card"><div class="course-icon">🤖</div><div><div class="course-name">Agentic AI with LangChain & LangGraph</div><div class="course-provider">Mar 2026 — Apr 2026</div></div></div>
+    <div class="course-card"><div class="course-icon">🎯</div><div><div class="course-name">Reinforcement Fine-Tuning</div><div class="course-provider">deeplearning.ai · Oct–Nov 2025</div></div></div>
+    <div class="course-card"><div class="course-icon">💬</div><div><div class="course-name">ChatGPT Prompt Engineering for Developers</div><div class="course-provider">deeplearning.ai · Sep–Oct 2025</div></div></div>
+    <div class="course-card"><div class="course-icon">📊</div><div><div class="course-name">Data Science, ML, DL & NLP Bootcamp</div><div class="course-provider">Udemy · Sep–Oct 2025</div></div></div>
+    <div class="course-card"><div class="course-icon">🕸️</div><div><div class="course-name">Knowledge Graph for AI Agent API Discovery</div><div class="course-provider">deeplearning.ai · Aug–Sep 2025</div></div></div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section id="blog">
+  <div class="section-label">// 05</div>
+  <h2 class="section-title">Writing & <span>Notes</span></h2>
+  <div class="blog-grid">
+    <div class="blog-card">
+      <div class="blog-date">2026</div>
+      <div class="blog-title">Multi-Agent Pipelines with CrewAI: Lessons from Building an Educational Blog System</div>
+      <div class="blog-excerpt">What I learned architecting a multi-agent RAG content pipeline optimised for UK primary school curricula.</div>
+      <div class="blog-read">Read more →</div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-date">2025</div>
+      <div class="blog-title">Varifocal Loss for YOLO: Why Default Loss Functions Aren't Always Enough</div>
+      <div class="blog-excerpt">A deep dive into improving object detection for aerial imagery by swapping out the YOLO loss function.</div>
+      <div class="blog-read">Read more →</div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-date">2025</div>
+      <div class="blog-title">Mel vs CQT Spectrograms for Sleep Audio Classification</div>
+      <div class="blog-excerpt">Findings from my MSc dissertation comparing two spectrogram representations for audio-based sleep stage detection.</div>
+      <div class="blog-read">Read more →</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-label">// 06</div>
+    <h2 class="section-title">Get in <span>Touch</span></h2>
+  </div>
+  <div class="contact-inner">
+    <div class="contact-text">
+      <p>I'm open to senior AI/ML engineering roles, research engineering positions, and interesting projects at the intersection of LLMs and production systems. Based in Chertsey, England — open to remote.</p>
+      <div class="socials">
+        <a class="social-link" href="https://github.com" target="_blank"><span class="icon">🐙</span> GitHub</a>
+        <a class="social-link" href="https://linkedin.com" target="_blank"><span class="icon">💼</span> LinkedIn</a>
+        <a class="social-link" href="mailto:dtaghva26@gmail.com"><span class="icon">✉️</span> dtaghva26@gmail.com</a>
+        <a class="social-link" href="tel:+447863653048"><span class="icon">📞</span> +44 7863 653048</a>
+      </div>
+    </div>
+    <div class="contact-form">
+      <input type="text" placeholder="Your name" />
+      <input type="email" placeholder="Your email" />
+      <textarea placeholder="What are you working on?"></textarea>
+      <button class="btn btn-primary">Send Message</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Built by <span>Darya Taghva</span> · 2026 · Dark mode always on.
+</footer>
+
+</body>
+</html>
