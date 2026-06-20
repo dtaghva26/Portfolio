@@ -128,13 +128,34 @@
   .contact-form textarea { min-height: 130px; }
   .contact-form button { align-self: flex-start; }
 
+  #ux-experiences { background: var(--bg); max-width: 100%; padding-left: 10%; padding-right: 10%; }
+  .ux-intro { max-width: 1200px; margin: 0 auto 3rem; }
+  .ux-intro p { color: var(--muted); font-size: 0.95rem; line-height: 1.8; max-width: 680px; }
+  .ux-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+  .ux-card {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
+    overflow: hidden; transition: all 0.3s; cursor: zoom-in;
+  }
+  .ux-card:hover { border-color: rgba(0,212,255,0.35); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,212,255,0.08); }
+  .ux-card-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; object-position: top; display: block; }
+  .ux-card-body { padding: 1.25rem 1.5rem 1.5rem; }
+  .ux-card-label { font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent2); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .ux-card-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.5rem; line-height: 1.4; }
+  .ux-card-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+
+  .ux-lightbox { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,0.88); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 2rem; }
+  .ux-lightbox.open { display: flex; }
+  .ux-lightbox img { max-width: 92vw; max-height: 88vh; border-radius: 10px; border: 1px solid var(--border); }
+  .ux-lightbox-close { position: absolute; top: 1.5rem; right: 2rem; font-size: 2rem; color: var(--muted); cursor: pointer; line-height: 1; background: none; border: none; }
+  .ux-lightbox-close:hover { color: var(--text); }
+
   footer { text-align: center; padding: 2rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); border-top: 1px solid var(--border); }
   footer span { color: var(--accent); }
 
   @media (max-width: 700px) {
     .nav-links { gap: 1rem; }
     section { padding: 80px 5%; }
-    #hero, #projects, #timeline, #contact { padding-left: 5%; padding-right: 5%; }
+    #hero, #projects, #ux-experiences, #timeline, #contact { padding-left: 5%; padding-right: 5%; }
     .contact-inner { grid-template-columns: 1fr; gap: 2rem; }
   }
 </style>
@@ -145,6 +166,7 @@
   <div class="nav-logo">DT.//</div>
   <ul class="nav-links">
     <li><a href="#projects">Projects</a></li>
+    <li><a href="#ux-experiences">UX</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#timeline">Timeline</a></li>
     <li><a href="#courses">Courses</a></li>
@@ -225,9 +247,52 @@
   </div>
 </section>
 
+<!-- UX EXPERIENCES -->
+<section id="ux-experiences">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-label">// 02</div>
+    <h2 class="section-title">Educational <span>UX Experiences</span></h2>
+  </div>
+  <div class="ux-intro">
+    <p>Beyond production code, I design learning experiences that make complex AI and ML concepts tangible. These screens are from an interactive educational dashboard built for learners — featuring wizard-guided flows, live code generation, and explainability audits.</p>
+  </div>
+  <div class="ux-gallery">
+    <div class="ux-card" onclick="openLightbox('educational-experiences/Screenshot 2026-06-20 133740.png')">
+      <img class="ux-card-img" src="educational-experiences/Screenshot 2026-06-20 133740.png" alt="Model Landscape Map" />
+      <div class="ux-card-body">
+        <div class="ux-card-label">View 1 — Exploration</div>
+        <div class="ux-card-title">Model Landscape Map</div>
+        <div class="ux-card-desc">An interactive scatter chart mapping 11 algorithms by complexity vs. versatility, built with a de-collision coordinate solver to prevent label overlap. Learners browse and select models from a searchable algorithm index.</div>
+      </div>
+    </div>
+    <div class="ux-card" onclick="openLightbox('educational-experiences/Screenshot 2026-06-20 133755.png')">
+      <img class="ux-card-img" src="educational-experiences/Screenshot 2026-06-20 133755.png" alt="Jimmy's Coding Spellbook" />
+      <div class="ux-card-body">
+        <div class="ux-card-label">View 2 — Guided Learning</div>
+        <div class="ux-card-title">Jimmy's Coding Spellbook</div>
+        <div class="ux-card-desc">A 5-step wizard-guided pipeline builder where Jimmy the AI tutor walks learners through assembling a scikit-learn pipeline. Code is generated live as choices are made, bridging concept to implementation.</div>
+      </div>
+    </div>
+    <div class="ux-card" onclick="openLightbox('educational-experiences/Screenshot 2026-06-20 133807.png')">
+      <img class="ux-card-img" src="educational-experiences/Screenshot 2026-06-20 133807.png" alt="Dynamic Parameter Specs" />
+      <div class="ux-card-body">
+        <div class="ux-card-label">View 3 — Deep Dive</div>
+        <div class="ux-card-title">Parameter & Explainability Audits</div>
+        <div class="ux-card-desc">Side-by-side model cards with explainability ratings, tunable hyperparameter counts, and Jimmy's analogies to demystify each algorithm's decision boundary — designed to reduce cognitive load for non-expert learners.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="ux-lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="ux-lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="Screenshot expanded" onclick="event.stopPropagation()" />
+</div>
+
 <!-- SKILLS -->
 <section id="skills">
-  <div class="section-label">// 02</div>
+  <div class="section-label">// 03</div>
   <h2 class="section-title">Skills & <span>Stack</span></h2>
   <div class="skills-grid">
     <div class="skill-group">
@@ -266,7 +331,7 @@
 <!-- TIMELINE -->
 <section id="timeline">
   <div style="max-width:1200px;margin:0 auto;">
-    <div class="section-label">// 03</div>
+    <div class="section-label">// 04</div>
     <h2 class="section-title">Work & <span>Education</span></h2>
   </div>
   <div class="timeline">
@@ -303,7 +368,7 @@
 
 <!-- COURSES -->
 <section id="courses">
-  <div class="section-label">// 04</div>
+  <div class="section-label">// 05</div>
   <h2 class="section-title">Courses & <span>Certs</span></h2>
   <div class="courses-grid">
     <div class="course-card"><div class="course-icon">🧠</div><div><div class="course-name">Capstone: Deep Learning</div><div class="course-provider">May 2026 — Jun 2026</div></div></div>
@@ -319,7 +384,7 @@
 <!-- CONTACT -->
 <section id="contact">
   <div style="max-width:1200px;margin:0 auto;">
-    <div class="section-label">// 05</div>
+    <div class="section-label">// 06</div>
     <h2 class="section-title">Get in <span>Touch</span></h2>
   </div>
   <div class="contact-inner">
@@ -344,7 +409,7 @@
 <!-- COMIC OF THE DAY -->
 <section class="comic-section">
   <div class="comic-container">
-    <div class="section-label">// 06</div>
+    <div class="section-label">// 07</div>
     <h2 class="section-title">Comic of the <span>Day</span></h2>
     <img src="comic.png" alt="Comic of the day" class="comic-image">
   </div>
@@ -354,5 +419,19 @@
   Built by <span>Darya Taghva</span> · 2026 · Dark mode always on.
 </footer>
 
+<script>
+  function openLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>
 </body>
 </html>
