@@ -21,9 +21,21 @@
     --font-sans: 'Barlow', 'Segoe UI', sans-serif;
     --font-mono: 'Courier New', monospace;
   }
+  /* ── DARK MODE ── */
+  [data-theme="dark"] {
+    --bg: #0f0f13;
+    --bg2: #161620;
+    --bg3: #1e1e2c;
+    --text: #e8e4d9;
+    --muted: #9090a0;
+    --border: #2a2a3a;
+  }
+  [data-theme="dark"] nav { background: rgba(15,15,19,0.97); }
+  [data-theme="dark"] footer { color: rgba(255,255,255,0.35); }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  body { background: var(--bg); color: var(--text); font-family: var(--font-sans); line-height: 1.6; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-sans); line-height: 1.6; transition: background 0.3s, color 0.3s; }
 
   /* ── NAV ── */
   nav {
@@ -108,11 +120,36 @@
   .btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); transform: translateY(-2px); }
   .btn-outline { background: transparent; color: var(--text); border: 2px solid var(--text); }
   .btn-outline:hover { background: var(--text); color: var(--bg); }
+  .btn-cv { background: var(--text); color: var(--bg); border: 2px solid var(--text); }
+  .btn-cv:hover { opacity: 0.8; transform: translateY(-2px); }
   .hero-scroll {
     margin-top: 3.5rem; font-family: var(--font-mono); font-size: 0.7rem;
     color: var(--muted); letter-spacing: 2px; display: flex; align-items: center; gap: 0.75rem;
   }
   .hero-scroll::before { content: ''; display: block; width: 50px; height: 2px; background: var(--accent); }
+
+  /* ── THEME TOGGLE ── */
+  .theme-toggle {
+    background: none; border: 2px solid var(--border);
+    color: var(--text); width: 36px; height: 36px; border-radius: 50%;
+    cursor: pointer; font-size: 1rem; display: flex; align-items: center;
+    justify-content: center; transition: all 0.2s; flex-shrink: 0; padding: 0;
+  }
+  .theme-toggle:hover { border-color: var(--accent); transform: rotate(20deg); }
+
+  /* ── PROJECT FILTER ── */
+  .filter-bar {
+    display: flex; gap: 0.5rem; flex-wrap: wrap;
+    max-width: 1200px; margin: 0 auto 2rem;
+  }
+  .filter-btn {
+    padding: 0.4rem 1.1rem; border-radius: 0; border: 2px solid var(--border);
+    background: var(--bg); color: var(--muted); font-family: var(--font-sans);
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .filter-btn:hover { border-color: var(--accent); color: var(--text); }
+  .filter-btn.active { background: var(--accent); border-color: var(--accent); color: var(--text); }
 
   /* ── SIDE NAV ── */
   .side-nav {
@@ -332,6 +369,7 @@
     <li><a href="#courses">Courses</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
 </nav>
 
 <!-- HERO -->
@@ -345,6 +383,7 @@
   <div class="hero-btns">
     <a class="btn btn-primary" href="#projects">View Projects</a>
     <a class="btn btn-outline" href="#contact">Get in Touch</a>
+    <a class="btn btn-cv" href="cv.pdf" download>Download CV</a>
   </div>
   <div class="hero-scroll">scroll to explore</div>
 </div>
@@ -355,50 +394,57 @@
     <div class="section-label">// 01</div>
     <h2 class="section-title">Selected <span>Projects</span></h2>
   </div>
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="ml">ML</button>
+    <button class="filter-btn" data-filter="swe">SWE</button>
+    <button class="filter-btn" data-filter="cv">CV</button>
+    <button class="filter-btn" data-filter="nlp">NLP</button>
+  </div>
   <div class="projects-grid">
-    <div class="project-card">
+    <div class="project-card" data-tags="ml swe">
       <div class="project-tags"><span class="tag tag-ml">ML</span><span class="tag tag-swe">SWE</span></div>
       <div class="project-title">Traditional ML Algorithms Dashboard</div>
       <div class="project-desc">Interactive ML visualisation built with React 19, TypeScript, D3.js, and Tailwind. Explores scikit-learn algorithms, hyperparameter tuning via force-directed graphs, and bias-variance tradeoff. Integrated Gemini API for AI-powered tuning suggestions.</div>
       <div class="project-links"><a class="project-link" href="https://github.com/dtaghva26/Traditional-ML-algorithms" target="_blank">GitHub →</a></div>
     </div>
-    <div class="project-card">
+    <div class="project-card" data-tags="ml nlp">
       <div class="project-tags"><span class="tag tag-ml">ML</span><span class="tag tag-startup">NLP</span></div>
       <div class="project-title">RAG Blog Creation System</div>
       <div class="project-desc">Multi-agent content generation pipeline using CrewAI and NLP. Optimised for UK educational content (Year 1–6). Gradio-based interface automating blog drafting end-to-end.</div>
       <div class="project-links"><a class="project-link" href="https://github.com/dtaghva26/light-weight-blog-post-generator-gemeni-crew-ai" target="_blank">GitHub →</a></div>
     </div>
-    <div class="project-card">
+    <div class="project-card" data-tags="ml cv">
       <div class="project-tags"><span class="tag tag-ml">ML</span><span class="tag tag-cv">Signal</span></div>
       <div class="project-title">Mental Health Index Prediction</div>
       <div class="project-desc">ML models for detecting mental health indices from screen time data with 90%+ accuracy. Includes full EDA pipeline on screen time indexing dataset.</div>
       <div class="project-links"><a class="project-link" href="https://github.com/dtaghva2001/Screen-time-and-Mental-Health" target="_blank">GitHub →</a></div>
     </div>
-    <div class="project-card">
+    <div class="project-card" data-tags="cv ml">
       <div class="project-tags"><span class="tag tag-cv">CV</span><span class="tag tag-ml">ML</span></div>
       <div class="project-title">Airplane Detection with YOLO</div>
       <div class="project-desc">Improved YOLO loss function by integrating Varifocal loss for aerial object detection. Applied advanced data augmentations using the Albumentations package.</div>
       <div class="project-links"><a class="project-link" href="https://github.com/jackiemalooly/aml-group-project" target="_blank">GitHub →</a></div>
     </div>
-    <div class="project-card">
+    <div class="project-card" data-tags="cv ml">
       <div class="project-tags"><span class="tag tag-cv">CV</span><span class="tag tag-ml">ML</span></div>
       <div class="project-title">COVID Detection via Chest X-Ray</div>
       <div class="project-desc">Hybrid model combining chest X-ray images and tabular data for COVID-19 detection, achieving 94% accuracy.</div>
       <div class="project-links"><a class="project-link" href="#">GitHub →</a></div>
     </div>
-    <div class="project-card">
+    <div class="project-card" data-tags="ml">
       <div class="project-tags"><span class="tag tag-ml">ML</span></div>
       <div class="project-title">Alzheimer's Detection</div>
       <div class="project-desc">ML system (Logistic Regression + Gradient Boosting) using the ELSA dataset for dementia detection. Focus on tabular clinical data modelling.</div>
       <div class="project-links"><a class="project-link" href="#">GitHub →</a></div>
     </div>
-    <div class="project-card">
+    <div class="project-card" data-tags="swe nlp">
       <div class="project-tags"><span class="tag tag-swe">SWE</span><span class="tag tag-startup">Startup</span></div>
       <div class="project-title">No-Code App Builder (BSc Dissertation)</div>
       <div class="project-desc">Development and deployment of a no-code application generation system using the MERN stack. OOP-driven architecture for reusable component generation.</div>
       <div class="project-links"><a class="project-link" href="#">GitHub →</a></div>
     </div>
-    <div class="project-card">
+    <div class="project-card" data-tags="ml swe">
       <div class="project-tags"><span class="tag tag-ml">AI</span><span class="tag tag-swe">SWE</span></div>
       <div class="project-title">Hive AI Agent</div>
       <div class="project-desc">AI agent for the Hive board game using MiniMax (depth 7) with a custom heuristic loss function, improving decision-making by 30%.</div>
@@ -582,7 +628,7 @@
 </div>
 
 <footer>
-  Built by <span>Darya Taghva</span> · 2026 · Dark mode always on.
+  Built by <span>Darya Taghva</span> · 2026
 </footer>
 
 <script>
@@ -597,6 +643,30 @@
   }
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeLightbox();
+  });
+
+  // Dark mode toggle
+  const toggle = document.getElementById('themeToggle');
+  const saved = localStorage.getItem('theme') || 'light';
+  document.documentElement.setAttribute('data-theme', saved);
+  toggle.textContent = saved === 'dark' ? '☀️' : '🌙';
+  toggle.addEventListener('click', () => {
+    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    toggle.textContent = next === 'dark' ? '☀️' : '🌙';
+  });
+
+  // Project tag filter
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.filter;
+      document.querySelectorAll('.project-card').forEach(card => {
+        card.style.display = (f === 'all' || card.dataset.tags.includes(f)) ? '' : 'none';
+      });
+    });
   });
 
   // Side nav active dot
